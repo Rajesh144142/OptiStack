@@ -35,43 +35,29 @@ OptiStack is a **performance experimentation tool** that allows you to conduct e
 
 ## Getting Started
 
-### Prerequisites
+**For detailed setup instructions, see [SETUP.md](SETUP.md)**
 
-- Python 3.8 or higher
-- pip
-- Docker (optional, for containerized deployment)
+### Quick Start with Docker
 
-### Installation
+1. **Install Docker Desktop** and make sure it's running
 
-```bash
-git clone https://github.com/Rajesh144142/OptiStack.git
-cd OptiStack
-pip install -r requirements.txt
-```
+2. **Clone and start:**
+   ```bash
+   git clone https://github.com/Rajesh144142/OptiStack.git
+   cd OptiStack
+   docker-compose up -d
+   ```
 
-### Running the Project
+3. **Initialize Cassandra:**
+   ```bash
+   docker-compose exec app sh -c "PYTHONPATH=/app python scripts/init_cassandra.py"
+   ```
 
-To run the project locally:
+4. **Access API:** http://localhost:8000/docs
 
-```bash
-uvicorn app.main:app --reload
-```
+That's it! All databases and the application are now running.
 
-The API will be available at `http://localhost:8000`
-
-### Docker Deployment
-
-Build the Docker image:
-
-```bash
-docker build -t optistack:latest .
-```
-
-Run the Docker container:
-
-```bash
-docker run -p 8000:8000 optistack:latest
-```
+For local development setup or troubleshooting, see [SETUP.md](SETUP.md)
 
 ## Configuration
 
@@ -85,20 +71,90 @@ Configuration files are located in the `conf` directory.
 
 ## Project Structure
 
+The project follows a clean, layered architecture pattern with clear separation of concerns:
+
 ```
 OptiStack/
 ├── app/
+│   ├── __init__.py
+│   ├── main.py                    # FastAPI application entry point
 │   ├── api/
+│   │   ├── __init__.py
+│   │   └── v1/
+│   │       ├── __init__.py
+│   │       ├── router.py          # API router configuration
+│   │       └── endpoints/
+│   │           ├── __init__.py
+│   │           ├── experiments.py # Experiment endpoints
+│   │           └── health.py      # Health check endpoints
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py              # Application settings
+│   │   └── logging.py              # Logging configuration
 │   ├── models/
+│   │   ├── __init__.py
+│   │   └── experiment.py          # SQLAlchemy models
+│   ├── schemas/
+│   │   ├── __init__.py
+│   │   └── experiment.py          # Pydantic schemas
 │   ├── services/
+│   │   ├── __init__.py
+│   │   └── experiment_service.py  # Business logic layer
 │   ├── db/
-│   └── main.py
+│   │   ├── __init__.py
+│   │   ├── base.py                # Database base configuration
+│   │   ├── postgres.py            # PostgreSQL connection
+│   │   ├── mysql.py               # MySQL connection
+│   │   ├── mongodb.py             # MongoDB connection
+│   │   └── redis.py               # Redis connection
+│   └── utils/
+│       ├── __init__.py
+│       └── helpers.py              # Utility functions
 ├── benchmarks/
+│   ├── __init__.py
+│   ├── base.py                    # Base benchmark abstract class
+│   ├── postgres_benchmark.py
+│   ├── mysql_benchmark.py
+│   ├── mongodb_benchmark.py
+│   └── redis_benchmark.py
 ├── telemetry/
+│   ├── __init__.py
+│   ├── tracing.py                 # OpenTelemetry tracing
+│   └── metrics.py                 # Metrics collection
 ├── conf/
-├── README.md
-└── requirements.txt
+│   ├── __init__.py
+│   └── config.yaml                # Configuration file
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py                # Pytest fixtures
+│   ├── test_api/
+│   │   ├── __init__.py
+│   │   └── test_experiments.py
+│   └── test_services/
+│       ├── __init__.py
+│       └── test_experiment_service.py
+├── scripts/
+│   ├── __init__.py
+│   └── setup_db.py                # Database setup script
+├── .gitignore
+├── requirements.txt
+├── pyproject.toml                 # Modern Python project config
+├── Dockerfile
+├── docker-compose.yml
+├── env.example                    # Environment variables template
+└── README.md
 ```
+
+### Architecture Overview
+
+- **API Layer** (`app/api/`): Handles HTTP requests and responses, routes to appropriate endpoints
+- **Service Layer** (`app/services/`): Contains business logic and orchestrates operations
+- **Model Layer** (`app/models/`): Database models using SQLAlchemy ORM
+- **Schema Layer** (`app/schemas/`): Pydantic models for request/response validation
+- **Database Layer** (`app/db/`): Database connection management for different data stores
+- **Benchmarks** (`benchmarks/`): Performance testing implementations for each database
+- **Telemetry** (`telemetry/`): Observability and monitoring setup
+- **Tests** (`tests/`): Test suite organized to mirror application structure
 
 ## Roadmap
 

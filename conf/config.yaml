@@ -1,0 +1,17 @@
+experiments:
+  default_rows: 1000
+  default_concurrent_queries: 10
+  timeout_seconds: 300
+
+databases:
+  postgres:
+    pool_size: 10
+    max_overflow: 20
+  mysql:
+    pool_size: 10
+    max_overflow: 20
+  mongodb:
+    max_pool_size: 50
+  redis:
+    max_connections: 50
+
