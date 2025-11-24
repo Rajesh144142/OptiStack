@@ -145,6 +145,48 @@ OptiStack/
 └── README.md
 ```
 
+### Folder Structure Explained
+
+#### Application Core (`app/`)
+- **`app/main.py`**: FastAPI application entry point, initializes the app and includes routers
+- **`app/api/`**: API layer - handles HTTP requests and responses
+  - `api/v1/`: Versioned API endpoints
+  - `api/v1/endpoints/`: Individual endpoint files (experiments, health, etc.)
+  - `api/v1/router.py`: Routes configuration
+- **`app/core/`**: Core application configuration
+  - `config.py`: Application settings and environment variables
+  - `logging.py`: Logging configuration
+- **`app/models/`**: Database models using SQLAlchemy ORM
+- **`app/schemas/`**: Pydantic schemas for request/response validation
+- **`app/services/`**: Business logic layer - contains service classes
+- **`app/db/`**: Database connection management
+  - Individual files for each database (postgres, mysql, mongodb, redis, cassandra, cockroachdb)
+- **`app/utils/`**: Utility functions and helpers
+
+#### Benchmarks (`benchmarks/`)
+- Performance testing implementations for each database
+- `base.py`: Abstract base class for all benchmarks
+- Individual benchmark files for each database type
+
+#### Telemetry (`telemetry/`)
+- Observability and monitoring setup
+- `tracing.py`: OpenTelemetry distributed tracing
+- `metrics.py`: Metrics collection and reporting
+
+#### Configuration (`conf/`)
+- `config.yaml`: YAML configuration file for experiment settings
+
+#### Tests (`tests/`)
+- Test suite organized to mirror application structure
+- `conftest.py`: Pytest fixtures and test configuration
+- `test_api/`: API endpoint tests
+- `test_services/`: Service layer tests
+
+#### Scripts (`scripts/`)
+- Utility scripts for database setup and initialization
+- `setup_db.py`: Database initialization script
+- `init_cassandra.py`: Cassandra keyspace creation script
+
 ### Architecture Overview
 
 - **API Layer** (`app/api/`): Handles HTTP requests and responses, routes to appropriate endpoints
