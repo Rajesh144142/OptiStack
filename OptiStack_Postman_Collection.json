@@ -1,0 +1,615 @@
+{
+	"info": {
+		"_postman_id": "optistack-collection-2024",
+		"name": "OptiStack Database Benchmarks",
+		"description": "Complete collection of API requests for testing all 8 databases in OptiStack. Import this collection to test PostgreSQL, MySQL, MongoDB, Redis, Cassandra, CockroachDB, InfluxDB, and Elasticsearch performance benchmarks.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "API Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						},
+						"description": "Check if the OptiStack API is running"
+					}
+				},
+				{
+					"name": "API Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": ["{{base_url}}"],
+							"path": [""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "PostgreSQL Tests",
+			"item": [
+				{
+					"name": "Create - Basic Operations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Basic Test\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				},
+				{
+					"name": "Create - Advanced Features",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Advanced Test\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"join\", \"window\", \"json\", \"fulltext\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "MySQL Tests",
+			"item": [
+				{
+					"name": "Create - Standard Operations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"MySQL Web App Test\",\n  \"database_type\": \"mysql\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\", \"join\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "CockroachDB Tests",
+			"item": [
+				{
+					"name": "Create - Distributed SQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"CockroachDB Distributed Test\",\n  \"database_type\": \"cockroachdb\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\", \"join\", \"transaction\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "MongoDB Tests",
+			"item": [
+				{
+					"name": "Create - Document Operations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"MongoDB Document Test\",\n  \"database_type\": \"mongodb\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\", \"aggregate\", \"lookup\", \"textsearch\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				},
+				{
+					"name": "Create - Basic Operations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"MongoDB Basic Test\",\n  \"database_type\": \"mongodb\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Redis Tests",
+			"item": [
+				{
+					"name": "Create - Cache Performance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Redis Cache Test\",\n  \"database_type\": \"redis\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"set\", \"get\", \"pipeline\", \"hash\", \"sortedset\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				},
+				{
+					"name": "Create - Basic Operations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Redis Speed Test\",\n  \"database_type\": \"redis\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"set\", \"get\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Cassandra Tests",
+			"item": [
+				{
+					"name": "Create - High Write Throughput",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Cassandra Write Test\",\n  \"database_type\": \"cassandra\",\n  \"config\": {\n    \"rows\": 20000,\n    \"operations\": [\"insert\", \"select\", \"update\", \"consistency\", \"timeseries\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "InfluxDB Tests",
+			"item": [
+				{
+					"name": "Create - Time-Series Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"InfluxDB Time-Series Test\",\n  \"database_type\": \"influxdb\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"write\", \"query\", \"aggregate\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Elasticsearch Tests",
+			"item": [
+				{
+					"name": "Create - Search & Analytics",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Elasticsearch Search Test\",\n  \"database_type\": \"elasticsearch\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"index\", \"search\", \"aggregate\", \"fulltext\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Experiment Management",
+			"item": [
+				{
+					"name": "List All Experiments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Get all experiments"
+					}
+				},
+				{
+					"name": "Get Experiment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/{{experiment_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", "{{experiment_id}}"]
+						},
+						"description": "Get specific experiment details and results. Replace {{experiment_id}} with actual ID from create response."
+					}
+				},
+				{
+					"name": "Run Experiment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/{{experiment_id}}/run",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", "{{experiment_id}}", "run"]
+						},
+						"description": "Execute an experiment. Replace {{experiment_id}} with actual ID. Wait 5-15 seconds then use 'Get Experiment by ID' to see results."
+					}
+				}
+			]
+		},
+		{
+			"name": "Comparison Scenarios",
+			"item": [
+				{
+					"name": "Web App Backend - PostgreSQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Web App - PostgreSQL\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Web application backend comparison"
+					}
+				},
+				{
+					"name": "Web App Backend - MySQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Web App - MySQL\",\n  \"database_type\": \"mysql\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Web application backend comparison"
+					}
+				},
+				{
+					"name": "Web App Backend - MongoDB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Web App - MongoDB\",\n  \"database_type\": \"mongodb\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Web application backend comparison"
+					}
+				},
+				{
+					"name": "Caching Layer - Redis",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Cache - Redis\",\n  \"database_type\": \"redis\",\n  \"config\": {\n    \"rows\": 100000,\n    \"operations\": [\"set\", \"get\", \"pipeline\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Caching layer performance"
+					}
+				},
+				{
+					"name": "Analytics - PostgreSQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Analytics - PostgreSQL\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 100000,\n    \"operations\": [\"select\", \"join\", \"window\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Analytics and reporting"
+					}
+				},
+				{
+					"name": "Analytics - Elasticsearch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Analytics - Elasticsearch\",\n  \"database_type\": \"elasticsearch\",\n  \"config\": {\n    \"rows\": 100000,\n    \"operations\": [\"index\", \"search\", \"aggregate\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Analytics and reporting"
+					}
+				},
+				{
+					"name": "Time-Series - InfluxDB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Time-Series - InfluxDB\",\n  \"database_type\": \"influxdb\",\n  \"config\": {\n    \"rows\": 100000,\n    \"operations\": [\"write\", \"query\", \"aggregate\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Time-series data and IoT"
+					}
+				},
+				{
+					"name": "Time-Series - Cassandra",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Time-Series - Cassandra\",\n  \"database_type\": \"cassandra\",\n  \"config\": {\n    \"rows\": 100000,\n    \"operations\": [\"insert\", \"select\", \"timeseries\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Time-series data and IoT"
+					}
+				},
+				{
+					"name": "Full-Text Search - PostgreSQL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Search - PostgreSQL\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"insert\", \"fulltext\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Full-text search comparison"
+					}
+				},
+				{
+					"name": "Full-Text Search - Elasticsearch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Search - Elasticsearch\",\n  \"database_type\": \"elasticsearch\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"index\", \"fulltext\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Full-text search comparison"
+					}
+				},
+				{
+					"name": "Full-Text Search - MongoDB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Search - MongoDB\",\n  \"database_type\": \"mongodb\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"insert\", \"textsearch\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Scenario: Full-text search comparison"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "experiment_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+
