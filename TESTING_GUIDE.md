@@ -33,7 +33,7 @@ OptiStack is a **database performance benchmarking tool** that helps you:
 - `json` - JSONB queries and operations
 - `fulltext` - Full-text search with GIN indexes
 
-**API Payload Example**:
+**API Payload Example (Basic)**:
 ```json
 {
   "name": "PostgreSQL Complex Query Test",
@@ -44,6 +44,30 @@ OptiStack is a **database performance benchmarking tool** that helps you:
   }
 }
 ```
+
+**API Payload Example (Advanced - Realistic)**:
+```json
+{
+  "name": "PostgreSQL Production-Like Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 10000,
+    "operations": ["insert", "select", "update"],
+    "concurrent_users": 10,
+    "warmup_rows": 1000,
+    "warmup_operations": ["insert"],
+    "steady_state_duration": 30,
+    "data_size": "medium"
+  }
+}
+```
+
+**New Configuration Options** (Available for PostgreSQL and will be added to other databases):
+- `concurrent_users` (int, default: 1): Number of concurrent users/threads to simulate
+- `warmup_rows` (int, default: 0): Number of rows to insert before main benchmark (warms up database)
+- `warmup_operations` (list, default: []): Operations to run during warmup phase
+- `steady_state_duration` (int, default: 0): Run sustained load test for N seconds
+- `data_size` (string, default: "small"): Data complexity - "small", "medium", or "large"
 
 **Expected Results**:
 - **Insert**: 3,000-5,000 rows/second
@@ -548,6 +572,136 @@ foreach ($id in $experimentIds) {
 3. **Analyze**: Compare metrics and identify best fit
 4. **Optimize**: Test with different row counts and operations
 5. **Document**: Keep notes on which database works best for your use case
+
+---
+
+## Advanced Configuration Options
+
+### Concurrency Testing
+
+Simulate multiple concurrent users to test database under realistic load:
+
+```json
+{
+  "name": "High Concurrency Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 10000,
+    "operations": ["insert", "select"],
+    "concurrent_users": 20
+  }
+}
+```
+
+**What it does**: Runs operations with 20 concurrent threads, simulating 20 simultaneous users.
+
+**Why it matters**: Real applications have multiple users. This tests:
+- Connection pooling effectiveness
+- Lock contention
+- Transaction conflicts
+- Resource sharing
+
+### Warm-up Phase
+
+Pre-populate database before main benchmark:
+
+```json
+{
+  "name": "Warm-up Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 10000,
+    "operations": ["select"],
+    "warmup_rows": 5000,
+    "warmup_operations": ["insert"]
+  }
+}
+```
+
+**What it does**: 
+1. First inserts 5000 rows (warmup)
+2. Then runs main benchmark with 10000 rows
+
+**Why it matters**: Databases perform differently after:
+- Cache is warmed up
+- Indexes are populated
+- Buffer pools are filled
+
+### Sustained Load Testing
+
+Test performance over time (steady state):
+
+```json
+{
+  "name": "Sustained Load Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 10000,
+    "operations": ["select"],
+    "steady_state_duration": 60,
+    "concurrent_users": 5
+  }
+}
+```
+
+**What it does**: Runs queries continuously for 60 seconds with 5 concurrent users.
+
+**Why it matters**: Tests:
+- Long-term performance stability
+- Memory leaks
+- Resource exhaustion
+- Performance degradation over time
+
+### Data Complexity
+
+Test with different data sizes:
+
+```json
+{
+  "name": "Large Data Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 10000,
+    "operations": ["insert", "select"],
+    "data_size": "large"
+  }
+}
+```
+
+**Options**:
+- `"small"`: 10 characters per field (default)
+- `"medium"`: 50 characters per field
+- `"large"`: 200 characters per field
+
+**Why it matters**: Larger data affects:
+- Network transfer time
+- Memory usage
+- Disk I/O
+- Query performance
+
+### Complete Realistic Example
+
+```json
+{
+  "name": "Production-Like Workload",
+  "database_type": "postgres",
+  "config": {
+    "rows": 50000,
+    "operations": ["insert", "select", "update"],
+    "concurrent_users": 25,
+    "warmup_rows": 10000,
+    "warmup_operations": ["insert"],
+    "steady_state_duration": 120,
+    "data_size": "medium"
+  }
+}
+```
+
+This simulates:
+1. **Warm-up**: Insert 10,000 rows to warm up database
+2. **Main Load**: 25 concurrent users performing insert/select/update on 50,000 rows
+3. **Sustained Load**: Continue running for 2 minutes to test stability
+4. **Medium Data**: Realistic data sizes (not too small, not too large)
 
 ---
 

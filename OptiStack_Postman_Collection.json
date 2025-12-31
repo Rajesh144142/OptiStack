@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "optistack-collection-2024",
 		"name": "OptiStack Database Benchmarks",
-		"description": "Complete collection of API requests for testing all 8 databases in OptiStack. Import this collection to test PostgreSQL, MySQL, MongoDB, Redis, Cassandra, CockroachDB, InfluxDB, and Elasticsearch performance benchmarks.",
+		"description": "Complete collection of API requests for testing all 8 databases in OptiStack. Import this collection to test PostgreSQL, MySQL, MongoDB, Redis, Cassandra, CockroachDB, InfluxDB, and Elasticsearch performance benchmarks.\n\nNEW FEATURES:\n- Concurrency testing (concurrent_users)\n- Warm-up phase (warmup_rows, warmup_operations)\n- Sustained load testing (steady_state_duration)\n- Data complexity options (data_size: small/medium/large)\n\nSee 'Advanced Realistic Tests' folder for examples with all new features.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -57,7 +57,8 @@
 							"raw": "{{base_url}}/api/v1/experiments/",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "experiments", ""]
-						}
+						},
+						"description": "Basic PostgreSQL test with standard operations"
 					}
 				},
 				{
@@ -78,7 +79,96 @@
 							"raw": "{{base_url}}/api/v1/experiments/",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "experiments", ""]
-						}
+						},
+						"description": "Advanced PostgreSQL features: joins, window functions, JSON, full-text search"
+					}
+				},
+				{
+					"name": "Create - With Concurrency",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Concurrent Users Test\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"],\n    \"concurrent_users\": 10\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Test with 10 concurrent users to simulate realistic load"
+					}
+				},
+				{
+					"name": "Create - With Warm-up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Warm-up Test\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"select\"],\n    \"warmup_rows\": 5000,\n    \"warmup_operations\": [\"insert\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Warm-up phase: inserts 5000 rows first, then runs main benchmark"
+					}
+				},
+				{
+					"name": "Create - Sustained Load",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Sustained Load Test\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"select\"],\n    \"steady_state_duration\": 60,\n    \"concurrent_users\": 5\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Sustained load: runs queries continuously for 60 seconds with 5 concurrent users"
+					}
+				},
+				{
+					"name": "Create - Production-Like",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"PostgreSQL Production Simulation\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 50000,\n    \"operations\": [\"insert\", \"select\", \"update\"],\n    \"concurrent_users\": 25,\n    \"warmup_rows\": 10000,\n    \"warmup_operations\": [\"insert\"],\n    \"steady_state_duration\": 120,\n    \"data_size\": \"medium\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/experiments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "experiments", ""]
+						},
+						"description": "Complete production-like test with all new features: concurrency, warmup, sustained load, and medium data size"
 					}
 				}
 			]
@@ -366,14 +456,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Web App - PostgreSQL\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"]\n  }\n}"
+							"raw": "{\n  \"name\": \"Web App - PostgreSQL\",\n  \"database_type\": \"postgres\",\n  \"config\": {\n    \"rows\": 10000,\n    \"operations\": [\"insert\", \"select\", \"update\"],\n    \"concurrent_users\": 15,\n    \"warmup_rows\": 5000,\n    \"warmup_operations\": [\"insert\"]\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/v1/experiments/",
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "experiments", ""]
 						},
-						"description": "Scenario: Web application backend comparison"
+						"description": "Scenario: Web application backend comparison with realistic concurrency and warm-up"
 					}
 				},
 				{
@@ -395,7 +485,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "experiments", ""]
 						},
-						"description": "Scenario: Web application backend comparison"
+						"description": "Scenario: Web application backend comparison (Note: concurrency features coming soon to MySQL)"
 					}
 				},
 				{
@@ -417,7 +507,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["api", "v1", "experiments", ""]
 						},
-						"description": "Scenario: Web application backend comparison"
+						"description": "Scenario: Web application backend comparison (Note: concurrency features coming soon to MongoDB)"
 					}
 				},
 				{

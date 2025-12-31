@@ -13,6 +13,12 @@ OptiStack is a **performance experimentation tool** that allows you to conduct e
 - Comprehensive error handling and logging
 - RESTful API with OpenAPI documentation
 
+**Phase 2 Features (PostgreSQL):**
+- **Concurrency Testing** - Simulate multiple concurrent users for realistic load testing
+- **Warm-up Phase** - Pre-populate database before main benchmark for accurate results
+- **Sustained Load Testing** - Run continuous load for specified duration to test stability
+- **Data Complexity Options** - Test with different data sizes (small/medium/large)
+
 ## Tech Stack
 
 **Backend:**
@@ -138,8 +144,19 @@ Content-Type: application/json
 - `elasticsearch` - Elasticsearch (Search engine, full-text search, analytics)
 
 **Config Options:**
+
+**Basic Options:**
 - `rows` (int): Number of rows/documents to process (default: 1000)
 - `operations` (list): Operations to benchmark
+
+**Phase 2 - Advanced Options (PostgreSQL, coming to other databases):**
+- `concurrent_users` (int): Number of concurrent users/threads to simulate (default: 1)
+- `warmup_rows` (int): Number of rows to insert before main benchmark (default: 0)
+- `warmup_operations` (list): Operations to run during warmup phase (default: [])
+- `steady_state_duration` (int): Run sustained load test for N seconds (default: 0)
+- `data_size` (string): Data complexity - "small", "medium", or "large" (default: "small")
+
+**Available Operations:**
   - **PostgreSQL**: `["insert", "select", "update", "join", "window", "json", "fulltext"]`
     - `window`: Window functions (ROW_NUMBER, LAG, LEAD, running sums)
     - `json`: JSONB queries and operations
@@ -482,6 +499,7 @@ All errors are logged and returned with appropriate HTTP status codes and error 
 
 ## Roadmap
 
+### Phase 1 - Core Features (Completed ✅)
 - [x] PostgreSQL benchmark module (enhanced with window functions, JSON, full-text search)
 - [x] MySQL benchmark module
 - [x] CockroachDB benchmark module
@@ -490,12 +508,44 @@ All errors are logged and returned with appropriate HTTP status codes and error 
 - [x] Cassandra benchmark module (enhanced with consistency levels, time-series)
 - [x] InfluxDB benchmark module (time-series database)
 - [x] Elasticsearch benchmark module (search and analytics)
+- [x] RESTful API with OpenAPI documentation
+- [x] Performance monitoring (CPU, memory, latency metrics)
+
+### Phase 2 - Realistic Testing Features (Completed ✅)
+- [x] **Concurrency Support** - Simulate multiple concurrent users (`concurrent_users` config)
+- [x] **Warm-up Phase** - Pre-populate database before main benchmark (`warmup_rows`, `warmup_operations`)
+- [x] **Sustained Load Testing** - Run continuous load for specified duration (`steady_state_duration`)
+- [x] **Data Complexity Options** - Test with different data sizes (`data_size`: small/medium/large)
+- [x] **Thread-Safe Performance Monitoring** - Accurate metrics under concurrent load
+
+**Phase 2 Example:**
+```json
+{
+  "name": "Production-Like Test",
+  "database_type": "postgres",
+  "config": {
+    "rows": 50000,
+    "operations": ["insert", "select", "update"],
+    "concurrent_users": 25,
+    "warmup_rows": 10000,
+    "warmup_operations": ["insert"],
+    "steady_state_duration": 120,
+    "data_size": "medium"
+  }
+}
+```
+
+### Phase 3 - Future Enhancements (Planned)
 - [ ] DynamoDB benchmark module (requires AWS credentials)
+- [ ] Extend Phase 2 features to all databases (currently PostgreSQL only)
 - [ ] Add load-testing suite (k6)
 - [ ] Add CPU/Memory flamegraph generation
 - [ ] Add WebSocket-based live metrics streaming
 - [ ] Build frontend dashboard (React)
 - [ ] Advanced analysis and comparison features
+- [ ] Connection pool testing
+- [ ] Query pattern distribution
+- [ ] Failure scenario testing
 
 ## Performance Metrics
 

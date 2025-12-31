@@ -14,12 +14,14 @@ class PerformanceMonitor:
         self.sampling_active = False
         self.sampling_thread: Optional[threading.Thread] = None
         self.process = psutil.Process()
+        self._lock = threading.Lock()  # Thread-safe operations
         
     def start_experiment(self):
         self.start_time = time.perf_counter()
-        self.query_times.clear()
-        self.cpu_samples.clear()
-        self.memory_samples.clear()
+        with self._lock:
+            self.query_times.clear()
+            self.cpu_samples.clear()
+            self.memory_samples.clear()
         self._start_sampling()
         
     def stop_experiment(self):
@@ -27,7 +29,9 @@ class PerformanceMonitor:
         self._stop_sampling()
         
     def record_query_time(self, query_time: float):
-        self.query_times.append(query_time)
+        """Thread-safe method to record query times"""
+        with self._lock:
+            self.query_times.append(query_time)
         
     def _start_sampling(self):
         self.sampling_active = True
@@ -58,18 +62,23 @@ class PerformanceMonitor:
     def get_results(self) -> Dict[str, Any]:
         duration = (self.end_time - self.start_time) if self.end_time and self.start_time else 0.0
         
-        avg_cpu = sum(self.cpu_samples) / len(self.cpu_samples) if self.cpu_samples else 0.0
-        max_cpu = max(self.cpu_samples) if self.cpu_samples else 0.0
-        avg_memory = sum(self.memory_samples) / len(self.memory_samples) if self.memory_samples else 0.0
-        max_memory = max(self.memory_samples) if self.memory_samples else 0.0
+        with self._lock:
+            query_times_copy = self.query_times.copy()
+            cpu_samples_copy = list(self.cpu_samples)
+            memory_samples_copy = list(self.memory_samples)
         
-        if self.query_times:
-            total_queries = len(self.query_times)
+        avg_cpu = sum(cpu_samples_copy) / len(cpu_samples_copy) if cpu_samples_copy else 0.0
+        max_cpu = max(cpu_samples_copy) if cpu_samples_copy else 0.0
+        avg_memory = sum(memory_samples_copy) / len(memory_samples_copy) if memory_samples_copy else 0.0
+        max_memory = max(memory_samples_copy) if memory_samples_copy else 0.0
+        
+        if query_times_copy:
+            total_queries = len(query_times_copy)
             ops_per_second = total_queries / duration if duration > 0 else 0.0
-            avg_latency = sum(self.query_times) / total_queries
-            p50_latency = self._calculate_percentile(self.query_times, 50)
-            p95_latency = self._calculate_percentile(self.query_times, 95)
-            p99_latency = self._calculate_percentile(self.query_times, 99)
+            avg_latency = sum(query_times_copy) / total_queries
+            p50_latency = self._calculate_percentile(query_times_copy, 50)
+            p95_latency = self._calculate_percentile(query_times_copy, 95)
+            p99_latency = self._calculate_percentile(query_times_copy, 99)
         else:
             total_queries = 0
             ops_per_second = 0.0
