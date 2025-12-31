@@ -48,3 +48,7 @@ htmlcov/
 
 docker-compose.override.yml
 
+# Node.js
+node_modules/
+package-lock.json
+

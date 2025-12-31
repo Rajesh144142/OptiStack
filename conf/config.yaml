@@ -10,6 +10,9 @@ databases:
   mysql:
     pool_size: 10
     max_overflow: 20
+  cockroachdb:
+    pool_size: 10
+    max_overflow: 20
   mongodb:
     max_pool_size: 50
   redis:

@@ -36,6 +36,15 @@ class Settings(BaseSettings):
     DYNAMODB_REGION: Optional[str] = None
     DYNAMODB_TABLE: Optional[str] = None
     
+    INFLUXDB_URL: Optional[str] = None
+    INFLUXDB_TOKEN: Optional[str] = None
+    INFLUXDB_ORG: Optional[str] = None
+    INFLUXDB_BUCKET: Optional[str] = None
+    
+    ELASTICSEARCH_URL: Optional[str] = None
+    ELASTICSEARCH_USER: Optional[str] = None
+    ELASTICSEARCH_PASSWORD: Optional[str] = None
+    
     OPENTELEMETRY_ENABLED: bool = False
     OPENTELEMETRY_ENDPOINT: Optional[str] = None
     

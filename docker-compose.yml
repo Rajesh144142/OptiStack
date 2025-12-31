@@ -24,6 +24,13 @@ services:
       - COCKROACHDB_USER=root
       - COCKROACHDB_PASSWORD=
       - COCKROACHDB_DB=optistack
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=my-super-secret-auth-token
+      - INFLUXDB_ORG=optistack
+      - INFLUXDB_BUCKET=optistack
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_USER=elastic
+      - ELASTICSEARCH_PASSWORD=changeme
     depends_on:
       - postgres
       - mysql
@@ -31,6 +38,8 @@ services:
       - redis
       - cassandra
       - cockroachdb
+      - influxdb
+      - elasticsearch
     volumes:
       - .:/app
 
@@ -93,6 +102,33 @@ services:
     environment:
       - COCKROACH_DATABASE=optistack
 
+  influxdb:
+    image: influxdb:2.7-alpine
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=optistack
+      - DOCKER_INFLUXDB_INIT_BUCKET=optistack
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-secret-auth-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=changeme
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
 volumes:
   postgres_data:
   mysql_data:
@@ -100,4 +136,6 @@ volumes:
   redis_data:
   cassandra_data:
   cockroachdb_data:
+  influxdb_data:
+  elasticsearch_data:
 

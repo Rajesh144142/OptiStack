@@ -2,6 +2,8 @@ import logging
 import sys
 from app.core.config import settings
 
+logger = logging.getLogger("optistack")
+
 def setup_logging():
     logging.basicConfig(
         level=getattr(logging, settings.LOG_LEVEL.upper()),
@@ -10,4 +12,5 @@ def setup_logging():
             logging.StreamHandler(sys.stdout)
         ]
     )
+    return logger
 
